@@ -24,6 +24,14 @@ public class Ticket {
 
     private Date createdAt;
 
+    private String category;
+
+    private String priority;
+
+    private String status;
+
+    private String resolution;
+
     @ManyToOne
     private User createdBy;
 
