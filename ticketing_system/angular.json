@@ -67,7 +67,8 @@
               "browserTarget": "ticketing_system:build:production"
             },
             "development": {
-              "browserTarget": "ticketing_system:build:development"
+              "browserTarget": "ticketing_system:build:development",
+              "proxyConfig": "src/proxy.config.json"
             }
           },
           "defaultConfiguration": "development"
