@@ -11,3 +11,5 @@ INSERT INTO users(name, email, is_manager, group_id) VALUES ('Salim Cooper', 'sa
 INSERT INTO users(name, email, is_manager, group_id) VALUES ('Kobi Wyatt', 'kobi.wyatt@dummy.com', true, 3);
 INSERT INTO users(name, email, is_manager, group_id) VALUES ('Reanna Keenan', 'reanna.keenan@dummy.com', false, 3);
 
+
+

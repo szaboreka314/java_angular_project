@@ -7,7 +7,7 @@
     <li class="dropdown">
       <a href="javascript:void(0)" class="dropbtn">Groups</a>
       <div class="dropdown-content">
-        <a *ngFor="let group of groups" [routerLink]="['/group-tickets/', group.name]"> {{group.name}} </a>
+        <a *ngFor="let group of groups" [routerLink]="['group-tickets', group.name]"> {{group.name}} </a>
       </div>
     </li>
     <li class="create_ticket"><a  routerLink="/create_ticket">Create</a></li>

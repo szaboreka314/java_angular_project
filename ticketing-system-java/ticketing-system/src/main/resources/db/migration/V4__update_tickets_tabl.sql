@@ -1,0 +1,1 @@
+ALTER table tickets ADD category varchar(255);

@@ -1,0 +1,1 @@
+INSERT INTO tickets(name, description, priority, status, resolution, created_at, created_by, assignee) values ('Setup windows', 'Please setup windows for my computer', 3, 'new', 'unresolved', now(), 3, 1);

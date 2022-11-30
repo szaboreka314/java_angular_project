@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Group} from "./group-tickets/model/group.model";
+import {Group} from "./create-ticket/model/group.model";
 import {GroupService} from "./services/group.service";
 
 @Component({

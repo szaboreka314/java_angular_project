@@ -1,1 +1,30 @@
-<p>ticket works!</p>
+<div class="descr" *ngIf="ticket">
+  <a   [routerLink]="['/group-tickets/',ticket.category]">{{ticket.category}}</a> / {{ticket.id}}
+</div>
+<h1>Details</h1>
+<div *ngIf="ticket">
+  <table class="tg">
+    <tbody>
+      <tr>
+        <td class="tg-73oq">Priority:</td>
+        <td class="tg-73oq">{{ticket.priority}}</td>
+        <td class="tg-73oq">Status:</td>
+        <td class="tg-73oq">{{ticket.status}}</td>
+      </tr>
+      <tr>
+        <td class="tg-73oq">Resolution: </td>
+        <td class="tg-73oq">{{ticket.resolution}}</td>
+        <td class="tg-73oq"></td>
+        <td class="tg-73oq"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h1>Description</h1>
+<div class="descr" *ngIf="ticket">
+  {{ticket.description}}
+</div>
+
+<h1>Attachments</h1>
+
+<h1>Comments</h1>

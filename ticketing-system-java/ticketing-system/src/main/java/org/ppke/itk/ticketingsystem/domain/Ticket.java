@@ -1,9 +1,13 @@
 package org.ppke.itk.ticketingsystem.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Getter
@@ -11,8 +15,8 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tickets")
-public class Ticket {
+@Table(name = "tickets", schema = "public")
+public class Ticket implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -22,6 +26,7 @@ public class Ticket {
 
     private String description;
 
+    @Temporal(TemporalType.DATE)
     private Date createdAt;
 
     private String category;
@@ -32,9 +37,15 @@ public class Ticket {
 
     private String resolution;
 
-    @ManyToOne
+    @JsonIgnore
+    //@JsonManagedReference("created_by")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "created_by")
     private User createdBy;
 
-    @ManyToOne
+    @JsonIgnore
+    //@JsonManagedReference("assignee")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "assignee")
     private User assignee;
 }

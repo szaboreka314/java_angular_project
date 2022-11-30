@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Ticket} from "../create-ticket/model/ticket.model";
+import {TicketService} from "../services/ticket.service";
 
 @Component({
   selector: 'app-home',
@@ -7,11 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() {
-    console.log('cica');
-  }
+  constructor(private ticketService: TicketService) { }
+
+  tickets : Ticket[] = [];
 
   ngOnInit(): void {
+    this.getLastModified();
+
   }
 
+  initGroups(){
+    this.ticketService.getTickets().subscribe((tickets) => this.tickets = tickets);
+  }
+
+  getLastModified(){
+    this.ticketService.getLastModified().subscribe((tickets) => this.tickets = tickets);
+  }
 }
