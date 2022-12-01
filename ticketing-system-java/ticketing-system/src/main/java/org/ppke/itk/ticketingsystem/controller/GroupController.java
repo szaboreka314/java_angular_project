@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * controller class for groups table
+ */
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
@@ -18,6 +21,10 @@ public class GroupController {
 
     private final GroupRepository groupRepository;
 
+    /**
+     * get all records from the groups table
+     * @return all groups records
+     */
     @GetMapping("/groups")
     public List<Group> getAllGroups() {
         return groupRepository.findAll();

@@ -9,6 +9,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * entity class for Tickets table
+ */
 @Getter
 @Setter
 @NoArgsConstructor

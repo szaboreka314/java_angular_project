@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+/**
+ * DTO class for Comment entity with the fields modifed by the user
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data

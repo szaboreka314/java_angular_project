@@ -8,6 +8,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * entity class for Groups table
+ */
 @Getter
 @Setter
 @NoArgsConstructor

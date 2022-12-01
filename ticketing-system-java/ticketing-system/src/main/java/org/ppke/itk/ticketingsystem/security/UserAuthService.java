@@ -9,6 +9,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+/**
+ * security class for user authentication
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor

@@ -9,6 +9,9 @@ import org.ppke.itk.ticketingsystem.domain.Ticket;
 import org.ppke.itk.ticketingsystem.domain.User;
 import org.ppke.itk.ticketingsystem.repository.TicketRepository;
 import org.ppke.itk.ticketingsystem.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +21,9 @@ import java.security.Principal;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * controller class for tickets table
+ */
 @Slf4j
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -27,23 +33,42 @@ public class TicketController {
     private final TicketRepository ticketRepository;
     private final UserRepository userRepository;
 
+    /**
+     * get the last five modified tickets
+     * @return five tickets order by creation time
+     */
     @GetMapping("/tickets/last_modified")
     public List<Ticket> getLastFiveModified() {
         return ticketRepository.findAll().stream()
-                .sorted(Comparator.comparing(Ticket::getCreatedAt))
+                .sorted(Comparator.comparing(Ticket::getCreatedAt)).limit(5)
                 .toList();
     }
 
-    @GetMapping("/tickets/{userName}")
-    public List<Ticket> getAssigned() {
-        return null;
-    }
-
+    /**
+     * get all records from tickets table
+     * @param limit size of page
+     * @param sort sorting method
+     * @return requested limit number of tickets order by creation time
+     */
     @GetMapping("/tickets")
-    public List<Ticket> getAllTickets(){
-        return ticketRepository.findAll().stream().toList();
+    public List<Ticket> getAllTickets(@RequestParam(required = false, defaultValue = "100") Integer limit,
+                                      @RequestParam(required = false, defaultValue = "desc") String sort){
+
+        if ( !sort.equalsIgnoreCase("desc") && !sort.equalsIgnoreCase("asc") ) {
+            throw new IllegalArgumentException("Invalid sorting param!!!");
+        }
+        var sortParam = sort.equalsIgnoreCase("asc") ?
+                Sort.by(Sort.Direction.ASC, "createdAt") : Sort.by(Sort.Direction.DESC, "createdAt");
+
+        Page<Ticket> tickets = ticketRepository.findAll(PageRequest.of(0, limit, sortParam ));
+        return tickets.toList();
     }
 
+    /**
+     * get tickets based on category
+     * @param category requested category by user
+     * @return all tickets filtered by category
+     */
     @GetMapping("/tickets/byCategory/{category}")
     public List<Ticket> getAllByGroupName(@PathVariable String category) {
         return ticketRepository.findAll().stream()
@@ -51,11 +76,21 @@ public class TicketController {
                 .toList();
     }
 
+    /**
+     * get a specific ticket
+     * @param id of the ticket requested by user
+     * @return the requested tickets record
+     */
     @GetMapping("/tickets/byId/{id}")
     public Ticket getTicket(@PathVariable Integer id) {
         return ticketRepository.findById(id).get();
     }
 
+    /**
+     * create new ticket
+     * @param ticketDTO DTO for new ticket
+     * @param principal object for user identification
+     */
     @PostMapping(value = "/tickets/new_ticket", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void saveTicket(@RequestBody TicketDTO ticketDTO, Principal principal){
         User createdBy = userRepository.findByEmail(principal.getName()).get();
@@ -67,6 +102,11 @@ public class TicketController {
         ticketRepository.save(ticket);
     }
 
+    /**
+     * update ticket
+     * @param updateTicketDTO DTO for the updating fields
+     * @param securityContextHolder object for user identification
+     */
     @PutMapping(value = "/tickets/edit_ticket", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void editTicket(@RequestBody UpdateTicketDTO updateTicketDTO, SecurityContextHolder securityContextHolder){
         Ticket ticket = ticketRepository.findById(updateTicketDTO.getId()).get();
@@ -81,6 +121,10 @@ public class TicketController {
 
     }
 
+    /**
+     * delete ticket
+     * @param id of ticket for deleting
+     */
     @DeleteMapping("/tickets/delete/{id}")
     public void deleteTicket(@PathVariable Integer id){
         log.warn(id.toString());

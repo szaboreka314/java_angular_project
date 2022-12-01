@@ -6,6 +6,9 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
+/**
+ * repository class for Tickets table
+ */
 public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 
 }

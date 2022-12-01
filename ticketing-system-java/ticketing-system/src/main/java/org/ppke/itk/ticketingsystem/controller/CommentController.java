@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 
+/**
+ * Controller class for Comment table
+ */
+
 @Slf4j
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -26,6 +30,12 @@ public class CommentController {
     public final UserRepository userRepository;
     public final TicketRepository ticketRepository;
 
+    /**
+     * get comments based on ticketId
+     * @param ticketId id of the opened ticket
+     * @return list of filtered comments
+     */
+
     @GetMapping("/comments/{ticketId}")
     public List<Comment> getCommentById(@PathVariable Integer ticketId){
         log.warn(ticketId.toString());
@@ -33,6 +43,12 @@ public class CommentController {
                 .filter(comment -> comment.getTicketId().getId().equals(ticketId))
                 .toList();
     }
+
+    /**
+     * add new comment
+     * @param commentDTO DTO for new comments
+     * @param principal object for user identification
+     */
 
     @PostMapping(value = "/comments/new_comment", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void saveComment(@RequestBody CommentDTO commentDTO, Principal principal){

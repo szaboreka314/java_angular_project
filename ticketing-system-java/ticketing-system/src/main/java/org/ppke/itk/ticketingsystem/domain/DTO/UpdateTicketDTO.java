@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
+/**
+ * DTO class for ticket entity with the fields modifed by the user
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data

@@ -7,6 +7,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * DTO class for ticket entity with the field modifed by the user and the id of the ssigned user
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
