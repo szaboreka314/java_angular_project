@@ -11,3 +11,4 @@ kobi.wyatt@dummy.com; pwkobi <-- user with simple roles
 salim.cooper@dummy.com; pwsalim <-- user with admin roles
 
 swagger ui can be reached on http://localhost:8080/swagger-ui/index.html
+cica
