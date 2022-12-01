@@ -17,7 +17,6 @@ import java.util.Date;
 @Table(name = "groups", schema = "public")
 public class Attachment implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Integer id;
 

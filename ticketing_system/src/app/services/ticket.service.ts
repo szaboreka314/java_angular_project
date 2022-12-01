@@ -29,4 +29,8 @@ export class TicketService {
     return this.http.get<Ticket[]>(this.ticketsUrl + '/byCategory/' + category);
   }
 
+  deleteTicket(id: number): Observable<Ticket>{
+    return this.http.delete<Ticket>(this.ticketsUrl+'/delete/' + id)
+  }
+
 }

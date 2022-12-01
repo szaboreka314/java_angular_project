@@ -1,10 +1,9 @@
 package org.ppke.itk.ticketingsystem.domain;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
+import org.ppke.itk.ticketingsystem.domain.DTO.TicketDTO;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,8 +16,9 @@ import java.util.Date;
 @Entity
 @Table(name = "tickets", schema = "public")
 public class Ticket implements Serializable {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "public.hibernate_sequence")
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -31,20 +31,18 @@ public class Ticket implements Serializable {
 
     private String category;
 
-    private String priority;
+    private Integer priority;
 
     private String status;
 
     private String resolution;
 
-    @JsonIgnore
-    //@JsonManagedReference("created_by")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class , property = "id")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "created_by")
     private User createdBy;
 
-    @JsonIgnore
-    //@JsonManagedReference("assignee")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class , property = "id")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "assignee")
     private User assignee;

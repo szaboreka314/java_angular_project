@@ -5,6 +5,8 @@ import {NewTicketService} from "../services/new-ticket.service";
 import {NewTicket} from "./model/new-ticket.model";
 import {Group} from "./model/group.model";
 import {GroupService} from "../services/group.service";
+import {User} from "./model/user.model";
+import {UserService} from "../services/user.service";
 
 @Component({
   selector: 'app-create-ticket',
@@ -15,26 +17,30 @@ export class CreateTicketComponent implements OnInit {
 
   public newTicket : NewTicket | undefined;
   groups : Group[] = [];
- // users : User[] | undefined;
-  users: undefined;
+  users : User[] | undefined;
+  assigneeId : number = 0;
 
-  constructor(public newTicketService: NewTicketService, private groupService: GroupService) { }
+  constructor(public newTicketService: NewTicketService, private groupService: GroupService, private userService: UserService) { }
 
   ngOnInit(): void {
-    this.newTicket = new NewTicket("", "", 0, "", 1, 2);
+    this.newTicket = new NewTicket("", "", 0, "", new Date(Date.now()), "unresolved", 'new');
     this.initGroups();
+    this.initUsers();
   }
 
   onSubmit(newTicketForm: NgForm) {
     if(this.newTicket)
-      this.newTicketService.saveTicket(this.newTicket).subscribe((response: any) => {
+      this.newTicketService.saveTicket(this.newTicket, this.assigneeId).subscribe((response: any) => {
         console.log(response);
       });
   }
 
   initGroups(){
     this.groupService.getGroups().subscribe((groups) => this.groups = groups);
-    console.log(this.groups);
+  }
+
+  initUsers(){
+    this.userService.getUsers().subscribe((users) => this.users = users);
   }
 
 }

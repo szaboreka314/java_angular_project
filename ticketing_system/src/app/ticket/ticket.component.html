@@ -1,3 +1,8 @@
+<div *ngIf="ticket">
+  <button class="edit" [routerLink]="['/get_ticket_by_id/', ticket.id, 'edit']">Edit</button> <button (click)="onDelete()" class="delete">Delete</button>
+</div>
+
+
 <div class="descr" *ngIf="ticket">
   <a   [routerLink]="['/group-tickets/',ticket.category]">{{ticket.category}}</a> / {{ticket.id}}
 </div>
@@ -25,6 +30,13 @@
   {{ticket.description}}
 </div>
 
-<h1>Attachments</h1>
-
 <h1>Comments</h1>
+<div class="comment" *ngFor="let comment of comments">
+  <div class="name">{{comment.userId.name}}:</div>
+{{comment.text}}
+</div>
+<textarea comment class="form-control" id="comment"
+          [(ngModel)]="newComment" name="comment"></textarea>
+<div *ngIf="ticket">
+  <button class="edit" type="button" (click)="saveComment()">Add comment</button>
+</div>

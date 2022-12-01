@@ -16,7 +16,6 @@ import java.io.Serializable;
 @Table(name = "groups", schema = "public")
 public class Group implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Integer id;
 

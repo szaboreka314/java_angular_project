@@ -15,6 +15,10 @@ import {TicketRoutingModule} from "./ticket/ticket-routing.module";
 import {FormsModule} from "@angular/forms";
 import {NewTicketService} from "./services/new-ticket.service";
 import {NewTicketValidatorDirective} from "./create-ticket/validator/new-ticket-validator.directive";
+import {UserService} from "./services/user.service";
+import { UpdateTicketComponent } from './update-ticket/update-ticket.component';
+import {UpdateTicketService} from "./services/update-ticket.service";
+import {CommentService} from "./services/comment.service";
 
 @NgModule({
   declarations: [
@@ -24,7 +28,8 @@ import {NewTicketValidatorDirective} from "./create-ticket/validator/new-ticket-
     CreateTicketComponent,
     GroupTicketsComponent,
     TicketComponent,
-    NewTicketValidatorDirective
+    NewTicketValidatorDirective,
+    UpdateTicketComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +38,7 @@ import {NewTicketValidatorDirective} from "./create-ticket/validator/new-ticket-
     HttpClientModule,
     FormsModule
   ],
-  providers: [TicketService, NewTicketService],
+  providers: [TicketService, NewTicketService, UserService, UpdateTicketService, CommentService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

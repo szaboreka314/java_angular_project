@@ -1,0 +1,54 @@
+<div *ngIf="ticket">
+  <button class="save" (click)="onSaveClick()" >Save</button>
+</div>
+
+
+<div class="descr" *ngIf="ticket">
+  <a   [routerLink]="['/group-tickets/',ticket.category]">{{ticket.category}}</a> / {{ticket.id}}
+</div>
+<h1>Details</h1>
+<div *ngIf="ticket">
+  <table class="tg">
+    <tbody>
+    <tr>
+      <td class="tg-73oq">Priority:</td>
+      <td class="tg-73oq">
+        <input *ngIf="updatedTicket" type="number" class="form-control" id="prio"
+               required
+               [(ngModel)]="updatedTicket.priority" name="prio"
+               #resultType="ngModel">
+      </td>
+      <td class="tg-73oq">Status:</td>
+      <td class="tg-73oq"><select *ngIf="updatedTicket" class="form-control" id="status"
+                                  required
+                                  [(ngModel)]="updatedTicket.status" name="status"
+                                  #resultType="ngModel">
+        <option *ngFor="let state of statuses" [selected] = "state == ticket.status"
+                [value]="state">{{state}}</option>
+      </select></td>
+    </tr>
+    <tr>
+      <td class="tg-73oq">Resolution: </td>
+      <td class="tg-73oq">
+        <select *ngIf="updatedTicket" class="form-control" id="resolution"
+                required
+                [(ngModel)]="updatedTicket.resolution" name="resolution"
+                #resultType="ngModel">
+          <option *ngFor="let res of resolution" [selected] = "res == ticket.resolution"
+                  [value]="res">{{res}}</option>
+        </select>
+      </td>
+      <td class="tg-73oq"></td>
+      <td class="tg-73oq"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<h1>Description</h1>
+<div class="descr" *ngIf="ticket">
+  {{ticket.description}}
+</div>
+
+<h1>Attachments</h1>
+
+<h1>Comments</h1>

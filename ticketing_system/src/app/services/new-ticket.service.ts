@@ -11,8 +11,9 @@ export class NewTicketService {
 
   constructor(private http: HttpClient, private messageService:MessageService) { }
 
-  saveTicket(ticket: NewTicket) : Observable<NewTicket>{
+  saveTicket(ticket: NewTicket, assigneeId : number) : Observable<NewTicket>{
+    console.log({"ticket": ticket, "assigneeId": assigneeId});
     this.messageService.add("NewTicketService: new ticket created")
-    return this.http.post<NewTicket>(this.ticketUrl, ticket);
+    return this.http.post<NewTicket>(this.ticketUrl, {"ticket": ticket, "assigneeId": assigneeId});
   }
 }

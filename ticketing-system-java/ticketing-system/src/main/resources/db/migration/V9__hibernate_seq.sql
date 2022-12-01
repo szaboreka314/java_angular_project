@@ -1,0 +1,1 @@
+create sequence public.hibernate_sequence increment 1 start 10 minvalue 10;

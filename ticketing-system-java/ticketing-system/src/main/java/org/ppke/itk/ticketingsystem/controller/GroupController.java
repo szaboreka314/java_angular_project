@@ -17,7 +17,6 @@ import java.util.List;
 public class GroupController {
 
     private final GroupRepository groupRepository;
-    private final TicketRepository ticketRepository;
 
     @GetMapping("/groups")
     public List<Group> getAllGroups() {

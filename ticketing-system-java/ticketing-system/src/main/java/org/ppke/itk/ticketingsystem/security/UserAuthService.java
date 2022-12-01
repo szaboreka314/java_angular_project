@@ -17,12 +17,12 @@ public class UserAuthService implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User dbUser = userRepository
-                .findByName(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User with username %s"));
+                .findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User with email %s"));
         return org.springframework.security.core.userdetails.User.builder()
-                .username(username)
+                .username(email)
                 .password(dbUser.getPassword())
                 .authorities(dbUser.getRole())
                 .build();

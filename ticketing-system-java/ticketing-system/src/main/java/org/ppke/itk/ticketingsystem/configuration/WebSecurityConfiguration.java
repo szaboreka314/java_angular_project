@@ -9,12 +9,17 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -25,18 +30,13 @@ public class WebSecurityConfiguration {
 
     private final UserDetailsService customUserDetailsService;
 
-    /*@Bean
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.authorizeRequests().antMatchers("/v3/api-docs/**","/swagger-ui/**").permitAll();
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/h2-console/**")
-                .permitAll()
-                .antMatchers(HttpMethod.DELETE)
-                .hasRole("ADMIN")
-                .antMatchers("/teams/**")
+                .antMatchers("/users/**")
                 .hasAnyRole("USER", "ADMIN")
-                .antMatchers("/groups/**")
-                .hasAnyRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -47,7 +47,7 @@ public class WebSecurityConfiguration {
 
         http.headers().frameOptions().disable(); // needed to be able to run h2-console
         return http.build();
-    }*/
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -64,4 +64,16 @@ public class WebSecurityConfiguration {
                 .passwordEncoder(passwordEncoder());
         return authenticationManagerBuilder.build();
     }
+
+    private static final String[] AUTH_LIST = {
+            "/swagger-resources/**",
+            "/swagger-ui.html",
+            "/v3/api-docs",
+            "/webjars/**"
+    };
+
+
+
+
+
 }

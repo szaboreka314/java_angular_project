@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import {Group} from "./create-ticket/model/group.model";
 import {GroupService} from "./services/group.service";
+import {HttpClient} from "@angular/common/http";
+import {User} from "./create-ticket/model/user.model";
 
 @Component({
   selector: 'app-root',
@@ -11,7 +13,11 @@ import {GroupService} from "./services/group.service";
 export class AppComponent {
   title = 'Dummy Ticketing System';
 
-  constructor(private groupService: GroupService) { }
+  constructor(private groupService: GroupService, private http: HttpClient) {
+    http.get<User>('api/home').subscribe((response: any) => {
+      console.log(response);
+    });
+  }
 
   groups : Group[] = [];
 
