@@ -25,7 +25,7 @@ public class GeneralController {
     private final UserRepository userRepository;
 
     /**
-     * 
+     * get specific user
      * @param principal object for user identification
      * @return user find by email address
      */
@@ -34,6 +34,11 @@ public class GeneralController {
         return userRepository.findByEmail(principal.getName()).get();
     }
 
+    /**
+     * get logo of the app
+     * @return the logo of the application
+     * @throws IOException if the inputstream cannot be cast
+     */
     @GetMapping(
             value = "/logo",
             produces = MediaType.IMAGE_JPEG_VALUE
