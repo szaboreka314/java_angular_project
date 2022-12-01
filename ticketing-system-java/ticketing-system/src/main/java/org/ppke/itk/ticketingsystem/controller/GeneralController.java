@@ -1,12 +1,17 @@
 package org.ppke.itk.ticketingsystem.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.IOUtils;
 import org.ppke.itk.ticketingsystem.domain.User;
 import org.ppke.itk.ticketingsystem.repository.UserRepository;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.Principal;
 
 @RestController
@@ -19,5 +24,14 @@ public class GeneralController {
     @GetMapping("/home")
     public User get(Principal principal) {
         return userRepository.findByEmail(principal.getName()).get();
+    }
+
+    @GetMapping(
+            value = "/logo",
+            produces = MediaType.IMAGE_JPEG_VALUE
+    )
+    public @ResponseBody byte[] getLogo() throws IOException {
+        InputStream in = getClass().getResourceAsStream("/static/logo.jpg");
+        return IOUtils.toByteArray(in);
     }
 }
