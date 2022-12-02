@@ -1,4 +1,18 @@
-  <table class="tg" id="latestActivities">
+<div class="filter">
+  <h1>Filters</h1>
+  <div class="form-group">
+    <label for="category">Assignee: </label>
+    <select class="form-control" id="category"
+            required
+            [(ngModel)]="assignee" name="category" (change)="filter()"
+            #resultType="ngModel">
+      <option *ngFor="let user of users"
+              [value]="user.id">{{user.name}}</option>
+    </select>
+  </div>
+</div>
+
+ <table class="tg" id="latestActivities">
     <thead>
     <tr>
       <th class="tg-0lax" colspan="3" >{{name}}</th>

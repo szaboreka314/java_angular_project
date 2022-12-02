@@ -18,4 +18,24 @@
   </tbody>
 </table>
 
+<table class="tg" id="assignedMe">
+  <thead>
+  <tr>
+    <th class="tg-0lax" colspan="3">Tickets assigned to me</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td class="tg-0lax">ID</td>
+    <td class="tg-0lax">TITLE</td>
+    <td class="tg-0lax">PRIORITY</td>
+  </tr>
+  <tr *ngFor="let ticket of assignedMeTickets">
+    <td class="tg-0lax"><a   [routerLink]="['/get_ticket_by_id/',ticket.id]">{{ticket.id}}</a></td>
+    <td class="tg-0lax">{{ticket.name}}</td>
+    <td class="tg-0lax">{{ticket.priority}}</td>
+  </tr>
+  </tbody>
+</table>
+
 

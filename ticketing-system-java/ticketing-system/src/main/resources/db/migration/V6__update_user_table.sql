@@ -1,3 +1,3 @@
-alter table users ADD COLUMN role varchar(100);
-alter table users ADD COLUMN password varchar(300);
+alter table dummy_users ADD COLUMN role varchar(100);
+alter table dummy_users ADD COLUMN password varchar(300);
 

@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS "groups"(
                          name VARCHAR(100) UNIQUE NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS "users" (
+CREATE TABLE IF NOT EXISTS "dummy_users" (
     id INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     name VARCHAR(100) UNIQUE NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
@@ -25,8 +25,8 @@ CREATE TABLE IF NOT EXISTS "tickets"(
     created_at TIMESTAMP NOT NULL,
     created_by INTEGER NOT NULL,
     assignee INTEGER NOT NULL,
-    CONSTRAINT fk_created_by FOREIGN KEY(created_by) REFERENCES users(id),
-    CONSTRAINT fk_assignee FOREIGN KEY(assignee) REFERENCES users(id)
+    CONSTRAINT fk_created_by FOREIGN KEY(created_by) REFERENCES dummy_users(id),
+    CONSTRAINT fk_assignee FOREIGN KEY(assignee) REFERENCES dummy_users(id)
 );
 
 CREATE TABLE IF NOT EXISTS "comments"(
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS "comments"(
     created_at TIMESTAMP NOT NULL,
     user_id INTEGER NOT NULL,
     ticket_id INTEGER NOT NULL,
-    CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCES users(id),
+    CONSTRAINT fk_user_id FOREIGN KEY(user_id) REFERENCES dummy_users(id),
     CONSTRAINT fk_ticket_id FOREIGN KEY(ticket_id) REFERENCES tickets(id)
 );
 

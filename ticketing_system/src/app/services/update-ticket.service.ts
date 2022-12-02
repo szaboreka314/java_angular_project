@@ -15,6 +15,4 @@ export class UpdateTicketService {
     console.log({"id": id, "priority" : prio, "status": status, "resolution": resolution})
     return this.http.put<Ticket>(this.ticketUrl, {"id": id, "priority" : prio, "status": status, "resolution": resolution});
   }
-
-
 }

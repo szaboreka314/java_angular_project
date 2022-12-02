@@ -29,8 +29,16 @@ export class TicketService {
     return this.http.get<Ticket[]>(this.ticketsUrl + '/byCategory/' + category);
   }
 
+  getTicketsByAssignee(id: number): Observable<Ticket[]>{
+    return this.http.get<Ticket[]>(this.ticketsUrl + '/byAssignee/' + id);
+  }
+
   deleteTicket(id: number): Observable<Ticket>{
-    return this.http.delete<Ticket>(this.ticketsUrl+'/delete/' + id)
+    return this.http.delete<Ticket>(this.ticketsUrl+'/delete/' + id);
+  }
+
+  getAssignedMeTickets(): Observable<Ticket[]>{
+    return this.http.get<Ticket[]>(this.ticketsUrl + '/assignedMe');
   }
 
 }

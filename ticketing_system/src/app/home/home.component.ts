@@ -12,17 +12,19 @@ export class HomeComponent implements OnInit {
   constructor(private ticketService: TicketService) { }
 
   tickets : Ticket[] = [];
+  assignedMeTickets : Ticket[] = [];
 
   ngOnInit(): void {
     this.getLastModified();
+    this.getAssignedMe();
 
-  }
-
-  initGroups(){
-    this.ticketService.getTickets().subscribe((tickets) => this.tickets = tickets);
   }
 
   getLastModified(){
     this.ticketService.getLastModified().subscribe((tickets) => this.tickets = tickets);
+  }
+
+  getAssignedMe(){
+    this.ticketService.getAssignedMeTickets().subscribe((tickets) => this.assignedMeTickets = tickets);
   }
 }

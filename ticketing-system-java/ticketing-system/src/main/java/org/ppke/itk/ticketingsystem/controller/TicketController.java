@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,7 @@ import java.awt.*;
 import java.security.Principal;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * controller class for tickets table
@@ -40,7 +42,15 @@ public class TicketController {
     @GetMapping("/tickets/last_modified")
     public List<Ticket> getLastFiveModified() {
         return ticketRepository.findAll().stream()
-                .sorted(Comparator.comparing(Ticket::getCreatedAt)).limit(5)
+                .sorted(Comparator.comparing(Ticket::getCreatedAt).reversed()).limit(5)
+                .toList();
+    }
+
+    @GetMapping("/tickets/assignedMe")
+    public List<Ticket> getMeTickets(SecurityContextHolder securityContextHolder){
+        String loggedInUserName = securityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(loggedInUserName).get();
+        return ticketRepository.findAll().stream().filter(ticket -> ticket.getAssignee().equals(user))
                 .toList();
     }
 
@@ -76,6 +86,13 @@ public class TicketController {
                 .toList();
     }
 
+    @GetMapping("/tickets/byAssignee/{id}")
+    public List<Ticket> getAllByAssignee(@PathVariable Integer id) {
+        return ticketRepository.findAll().stream()
+                .filter(ticket -> ticket.getAssignee().getId().equals(id))
+                .toList();
+    }
+
     /**
      * get a specific ticket
      * @param id of the ticket requested by user
@@ -92,14 +109,14 @@ public class TicketController {
      * @param principal object for user identification
      */
     @PostMapping(value = "/tickets/new_ticket", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void saveTicket(@RequestBody TicketDTO ticketDTO, Principal principal){
+    public Integer saveTicket(@RequestBody TicketDTO ticketDTO, Principal principal){
         User createdBy = userRepository.findByEmail(principal.getName()).get();
         User assignee = userRepository.findById(ticketDTO.getAssigneeId()).get();
         Ticket ticket = ticketDTO.getTicket();
         ticket.setAssignee(assignee);
         ticket.setCreatedBy(createdBy);
         //ticket.setId(10);
-        ticketRepository.save(ticket);
+        return ticketRepository.save(ticket).getId();
     }
 
     /**
@@ -111,8 +128,10 @@ public class TicketController {
     public void editTicket(@RequestBody UpdateTicketDTO updateTicketDTO, SecurityContextHolder securityContextHolder){
         Ticket ticket = ticketRepository.findById(updateTicketDTO.getId()).get();
         String loggedInUserName =  securityContextHolder.getContext().getAuthentication().getName();
-        String loggedInUserRole = securityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-        if((loggedInUserRole.equals("ROLE_USER") && ticket.getCreatedBy().equals(loggedInUserName)) || loggedInUserRole.equals("ROLE_ADMIN")){
+        Authentication loggedInUserRole = securityContextHolder.getContext().getAuthentication();
+        if( (loggedInUserRole.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_USER"))
+                && ticket.getCreatedBy().getEmail().equals(loggedInUserName)) ||
+                loggedInUserRole.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))){
             ticket.setPriority(updateTicketDTO.getPriority());
             ticket.setResolution(updateTicketDTO.getResolution());
             ticket.setStatus(updateTicketDTO.getStatus());

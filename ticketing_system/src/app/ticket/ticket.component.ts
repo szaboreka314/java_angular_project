@@ -7,6 +7,7 @@ import {TicketService} from "../services/ticket.service";
 import {CommentService} from "../services/comment.service";
 import {UserService} from "../services/user.service";
 import { User } from '../create-ticket/model/user.model';
+import {FileUploadService} from "../services/file-upload.service";
 
 @Component({
   selector: 'app-ticket',
@@ -21,11 +22,16 @@ export class TicketComponent implements OnInit {
   newComment : string = "";
   user : User | undefined;
 
+  shortLink: string = "";
+  loading: boolean = false; // Flag variable
+  file: File | undefined; // Variable to store file
+
   constructor(private messageService:MessageService,
               private route: ActivatedRoute,
               private ticketService: TicketService,
               private commentService: CommentService,
               public userService: UserService,
+              public fileUploadService: FileUploadService,
               private router: Router) { }
 
   ngOnInit(){
@@ -59,5 +65,27 @@ export class TicketComponent implements OnInit {
 
         this.ngOnInit();
       });
+  }
+
+  // @ts-ignore
+  onChange(event) {
+    this.file = event.target.files[0];
+  }
+
+  // OnClick of button Upload
+  onUpload() {
+    this.loading = !this.loading;
+    console.log(this.file);
+    this.fileUploadService.upload(this.file).subscribe(
+      (event: any) => {
+        if (typeof (event) === 'object') {
+
+          // Short link via api response
+          this.shortLink = event.link;
+
+          this.loading = false; // Flag variable
+        }
+      }
+    );
   }
 }

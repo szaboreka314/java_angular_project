@@ -3,9 +3,15 @@
 </div>
 
 
+
 <div class="descr" *ngIf="ticket">
   <a   [routerLink]="['/group-tickets/',ticket.category]">{{ticket.category}}</a> / {{ticket.id}}
 </div>
+
+<div *ngIf="ticket" class="title">
+  {{ticket.name}}
+</div>
+
 <h1>Details</h1>
 <div *ngIf="ticket">
   <table class="tg">
@@ -40,3 +46,28 @@
 <div *ngIf="ticket">
   <button class="edit" type="button" (click)="saveComment()">Add comment</button>
 </div>
+
+<h1>Attachments</h1>
+
+<div class="text-center">
+  <input class="form-control" type="file"
+         (change)="onChange($event)">
+
+  <button (click)="onUpload()"
+          class="btn btn-success">
+    Upload
+  </button>
+</div>
+
+<!-- Shareable short link of  uploaded file -->
+<div class="container text-center jumbotron"
+     *ngIf="shortLink">
+  <h2> Visit Here</h2>
+  <a href="{{shortLink}}">{{shortLink}}</a>
+</div>
+
+<!--Flag variable is used here-->
+<div class="container" *ngIf="loading">
+  <h3>Loading ...</h3>
+</div>
+

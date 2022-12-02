@@ -1,1 +1,1 @@
-alter table users drop column is_manager
+alter table dummy_users drop column is_manager

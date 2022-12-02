@@ -7,6 +7,7 @@ import {Group} from "./model/group.model";
 import {GroupService} from "../services/group.service";
 import {User} from "./model/user.model";
 import {UserService} from "../services/user.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-create-ticket',
@@ -20,7 +21,10 @@ export class CreateTicketComponent implements OnInit {
   users : User[] | undefined;
   assigneeId : number = 0;
 
-  constructor(public newTicketService: NewTicketService, private groupService: GroupService, private userService: UserService) { }
+  constructor(public newTicketService: NewTicketService,
+              private groupService: GroupService,
+              private userService: UserService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.newTicket = new NewTicket("", "", 0, "", new Date(Date.now()), "unresolved", 'new');
@@ -32,6 +36,7 @@ export class CreateTicketComponent implements OnInit {
     if(this.newTicket)
       this.newTicketService.saveTicket(this.newTicket, this.assigneeId).subscribe((response: any) => {
         console.log(response);
+        this.router.navigate(['/get_ticket_by_id/', response])
       });
   }
 
